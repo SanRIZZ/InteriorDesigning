@@ -41,7 +41,7 @@ namespace InteriorDesigning
             {
                 Room room = new Room(length, breadth, height);
                 cvOutput.Children.Add(room.DrawRoom());
-                Fill();
+                Fill(room);
             }
             else
             {
@@ -49,16 +49,23 @@ namespace InteriorDesigning
             }
         }
 
-        public List<Furniture> Beds()
+        public static List<Bed> Beds()
         {
-            List<Furniture> beds = new List<Furniture>();
+            List<Bed> beds = new List<Bed>();
             // Standard beg sizes
-            Furniture bedTwin = new Furniture("Twin", 6.25, 3.17, 3);
-            Furniture bedTwinXL = new Furniture("TwinXL", 6.67, 3.17, 3);
-            Furniture bedFull = new Furniture("Full", 6.25, 4.42, 3);
-            Furniture bedQueen = new Furniture("Queen", 6.67, 5, 3); 
-            Furniture bedKing = new Furniture("King", 6.67, 6.33, 3);
-            Furniture bedCaliforniaKing = new Furniture("California King", 7, 6, 3);
+            Bed bedTwin = new Bed("Gloucester Tufted Upholstered Low Profile Twin Bed", 75, 39, 25, Bed.BedTypes.Twin, 500);
+            bedTwin.Color = "taupe";
+            List<string> material = new List<string>();
+            material.Add("wood");
+            material.Add("polyester");
+            material.Add("foam");
+            bedTwin.Materials = material;
+            bedTwin.Link = "https://www.wayfair.com/furniture/pdp/greyleigh-gloucester-tufted-upholstered-low-profile-standard-bed-w001553030.html?piid=239528200%2C239528311";
+            Bed bedTwinXL = new Bed("TwinXL", 80, 39, 25, Bed.BedTypes.TwinXL, 1000);
+            Bed bedFull = new Bed("Full", 75, 54, 25, Bed.BedTypes.Full, 1255.99);
+            Bed bedQueen = new Bed("Queen", 80, 60, 25, Bed.BedTypes.Queen, 1500);
+            Bed bedKing = new Bed("King", 76, 80, 25, Bed.BedTypes.King, 1800);
+            Bed bedCaliforniaKing = new Bed("California King", 84, 72, 3, Bed.BedTypes.CaliforniaKing, 2000);
             beds.Add(bedTwin);
             beds.Add(bedTwinXL);
             beds.Add(bedFull);
@@ -68,17 +75,43 @@ namespace InteriorDesigning
             return beds;
         }
 
-        public void Fill()
+        public void Fill(Room room)
         {
-            List<Furniture> beds = Beds();
+            List<Bed> beds = Rules.BedRules(room,Beds());
             Random rnd = new Random();
-            Furniture bed = beds[rnd.Next(0, beds.Count())];
+            Bed bed = beds[rnd.Next(0, beds.Count())];
             Rectangle rect = bed.DrawFurniture();
-            var grid = new Grid();
-            grid.Children.Add(rect);
-            grid.Children.Add(new TextBlock() { Text = bed.Name, Margin = new Thickness(50, 50, 50, 50) });
-            cvOutput.Children.Add(grid);
-            Canvas.SetLeft(rect, 55);
+            var canvas = new Canvas();
+            canvas.Children.Add(rect);
+            //Hyperlink hlink = new Hyperlink();
+            //if (bed.Link != null)
+            //       hlink.NavigateUri = new Uri(bed.Link);
+            int margin = int.MaxValue;
+            while(margin >= room.Length*12*5)
+            {
+                margin = rnd.Next(((int)room.Length)*12*2);
+                if (margin >= room.Breadth * 12 * 5 - rect.Width)
+                {
+                    margin = int.MaxValue;
+                }
+            }
+            TextBlock txtDescription = new TextBlock()
+            {
+                Text = "Name:" + bed.Name
+                        + "\r\n" + "Materials:" + bed.Materials
+                        + "\r\n" + "color:" + bed.Color
+                        + "\r\n" + "Link:" + bed.Link
+                ,
+                Margin = new Thickness(margin+ rect.Width/3, rect.Height / 2 - 20, 0, 0),
+                Name = "txtDescription",
+                TextWrapping = TextWrapping.Wrap,
+                Width = 200,
+                Height = 400
+            };
+            Canvas.SetLeft(rect, margin);
+            canvas.Children.Add(txtDescription);
+            cvOutput.Children.Add(canvas);
         }
+        
     }
 }

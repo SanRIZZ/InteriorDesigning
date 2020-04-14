@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace InteriorDesigning
 {
-    public class Furniture
+    public abstract class Furniture
     {
         private string _Name;
         private double _Length;
@@ -17,6 +17,36 @@ namespace InteriorDesigning
         private double _Height;
         private Point _StartLocation;
         private List<Furniture> _Children;
+        private double _Price;
+        private List<string> _Materials;
+        private string _Color;
+        private string _Link;
+
+        public string Color
+        {
+            get { return _Color; }
+            set { _Color = value; }
+        }
+
+        public string Link
+        {
+            get { return _Link; }
+            set { _Link = value; }
+        }
+
+        public List<string> Materials
+        {
+            get { return _Materials; }
+            set { _Materials =value; }
+        }
+
+
+        public double Price
+        {
+            get { return _Price; }
+            set { _Price = value; }
+        }
+
 
         public string Name
         {
@@ -48,12 +78,16 @@ namespace InteriorDesigning
             set { _StartLocation = value; }
         }
 
-        public Furniture(string name, double length, double breadth, double height)
+       
+        
+
+        public Furniture(string name, double length, double breadth, double height, double price)
         {
             Name = name;
             Length = length;
             Breadth = breadth;
             Height = height;
+            Price = price;
         }
 
         public List<Furniture> Children
@@ -65,8 +99,8 @@ namespace InteriorDesigning
         public Rectangle DrawFurniture()
         {
             Rectangle furniture = new Rectangle();
-            furniture.Width = Breadth * 50;
-            furniture.Height = Length * 50;
+            furniture.Width = Breadth*5;
+            furniture.Height = Length*5;
             furniture.Stroke = Brushes.Black;
             return furniture;
         }

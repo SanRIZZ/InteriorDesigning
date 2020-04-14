@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace InteriorDesigning
 {
-    class Room
+    public class Room
     {
         private double _Length;
         private double _Breadth;
@@ -60,9 +60,10 @@ namespace InteriorDesigning
         {
             foreach(Furniture fr in Furnitures)
             {
+                
                 Rectangle furniture = new Rectangle();
-                furniture.Height = Length * 50;
-                furniture.Width = Breadth * 50;
+                furniture.Height = (Length * 12)*5;
+                furniture.Width = (Breadth * 12)*5;
                 furniture.Stroke = Brushes.Black;
             }
         }

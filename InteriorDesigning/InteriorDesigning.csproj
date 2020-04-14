@@ -54,9 +54,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bed.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Furniture.cs" />
     <Compile Include="Room.cs" />
+    <Compile Include="Rules.cs" />
     <Compile Include="Window.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
