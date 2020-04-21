@@ -45,6 +45,7 @@ namespace InteriorDesigning
             Length = length;
             Breadth = breadth;
             Height = height;
+
         }
 
         public Rectangle DrawRoom()

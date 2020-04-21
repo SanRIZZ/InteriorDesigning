@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 
 namespace InteriorDesigning
 {
-    public abstract class Furniture
+    public class Furniture
     {
         private string _Name;
         private double _Length;
@@ -21,11 +21,26 @@ namespace InteriorDesigning
         private List<string> _Materials;
         private string _Color;
         private string _Link;
+        private Types _Type;
+
+        private string _Size;
+
+        public string Size
+        {
+            get { return _Size; }
+            set { _Size = value; }
+        }
 
         public string Color
         {
             get { return _Color; }
             set { _Color = value; }
+        }
+
+        public Types Type
+        {
+            get { return _Type; }
+            set { _Type = value; }
         }
 
         public string Link
@@ -78,16 +93,23 @@ namespace InteriorDesigning
             set { _StartLocation = value; }
         }
 
-       
+        public enum Types
+        {
+            Bed,
+            BedSideTable,
+            Chair
+        }
         
 
-        public Furniture(string name, double length, double breadth, double height, double price)
+        public Furniture(string name, double length, double breadth, double height, double price, Types type, string size)
         {
             Name = name;
             Length = length;
             Breadth = breadth;
             Height = height;
             Price = price;
+            Type = type;
+            Size = size;
         }
 
         public List<Furniture> Children

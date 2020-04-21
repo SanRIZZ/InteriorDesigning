@@ -20,30 +20,30 @@ namespace InteriorDesigning
             // do not use bold primary colors, use soothing shades and a restful palette of monochromatic tones
         }
 
-        public static List<Bed> BedRules(Room room, List<Bed> beds)
+        public static List<Furniture> BedRules(Room room, List<Furniture> beds)
         {
-            var viableBeds = new List<Bed>();
+            var viableBeds = new List<Furniture>();
             if (room.Length <= 10 && room.Breadth <= 7)
             {
-                viableBeds = (List<Bed>)beds.
+                viableBeds = (List<Furniture>)beds.
                     Where(
-                        t => t.BedType == Bed.BedTypes.Twin
-                        || t.BedType == Bed.BedTypes.TwinXL
-                    ).ToList<Bed>();
+                        t => t.Size == "Twin"
+                        || t.Size == "TwinXL"
+                    ).ToList<Furniture>();
             }
             else if (room.Length <= 12 && room.Breadth <= 10)
             {
-                viableBeds = (List<Bed>)beds.
+                viableBeds = (List<Furniture>)beds.
                     Where(
-                         t => !(t.BedType == Bed.BedTypes.CaliforniaKing || t.BedType == Bed.BedTypes.King)
-                    ).ToList<Bed>();
+                         t => !(t.Size == "CaliforniaKing" || t.Size == "King")
+                    ).ToList<Furniture>();
             }
             else if(room.Length <= 13 && room.Breadth <= 13)
             {
-                viableBeds = (List<Bed>)beds.
+                viableBeds = (List<Furniture>)beds.
                     Where(
-                        t => !(t.BedType == Bed.BedTypes.CaliforniaKing)
-                    ).ToList<Bed>();
+                        t => !(t.Size == "CaliforniaKing")
+                    ).ToList<Furniture>();
             }
             else
             {

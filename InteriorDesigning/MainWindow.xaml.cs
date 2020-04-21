@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,49 @@ namespace InteriorDesigning
     /// </summary>
     public partial class MainWindow
     {
+        private GeneticAlgorithm<Furniture> ga;
+        private Random rnd;
+        private float mutationRate = 0.01f;
+        string targetString = "To be, or not to be, that is the question.";
+        int populationSize = 200;
         public MainWindow()
         {
             InitializeComponent();
+            rnd = new Random();
+            ga = new GeneticAlgorithm<Furniture>(populationSize, targetString.Length, rnd, GetRandomFurniture, FitnessFunction, mutationRate);
+            
+            while(ga.BestFitness != 1)
+            {
+                ga.NewGeneration();
+                if (ga.BestFitness == 1)
+                {
+                    this.IsEnabled = false;
+                }
+                lbxOutput.Items.Add(ga.BestGenes.ToString());
+            }
+        }
+
+        private Furniture GetRandomFurniture()
+        {
+            int i = rnd.Next(Beds().Count);
+            return Beds()[i];
+        }
+
+        private float FitnessFunction(int index)
+        {
+            float score = 0;
+            DNA<Furniture> dna = ga.Population[index];
+            for(int i = 0; i < dna.Genes.Length; i++)
+            {
+                // need fitness stuff
+
+                //if(some case)
+                //{
+                //    score += 1;
+                //}
+                score /= targetString.Length;
+            }
+            return score;
         }
 
         // we will multiply by 100 scale for pixel to inches
@@ -49,11 +91,11 @@ namespace InteriorDesigning
             }
         }
 
-        public static List<Bed> Beds()
+        public List<Furniture> Beds()
         {
-            List<Bed> beds = new List<Bed>();
+            List<Furniture> beds = new List<Furniture>();
             // Standard beg sizes
-            Bed bedTwin = new Bed("Gloucester Tufted Upholstered Low Profile Twin Bed", 75, 39, 25, Bed.BedTypes.Twin, 500);
+            Furniture bedTwin = new Furniture("Gloucester Tufted Upholstered Low Profile Twin Bed", 75, 39, 25, 500, Furniture.Types.Bed, "Twin");
             bedTwin.Color = "taupe";
             List<string> material = new List<string>();
             material.Add("wood");
@@ -61,11 +103,11 @@ namespace InteriorDesigning
             material.Add("foam");
             bedTwin.Materials = material;
             bedTwin.Link = "https://www.wayfair.com/furniture/pdp/greyleigh-gloucester-tufted-upholstered-low-profile-standard-bed-w001553030.html?piid=239528200%2C239528311";
-            Bed bedTwinXL = new Bed("TwinXL", 80, 39, 25, Bed.BedTypes.TwinXL, 1000);
-            Bed bedFull = new Bed("Full", 75, 54, 25, Bed.BedTypes.Full, 1255.99);
-            Bed bedQueen = new Bed("Queen", 80, 60, 25, Bed.BedTypes.Queen, 1500);
-            Bed bedKing = new Bed("King", 76, 80, 25, Bed.BedTypes.King, 1800);
-            Bed bedCaliforniaKing = new Bed("California King", 84, 72, 3, Bed.BedTypes.CaliforniaKing, 2000);
+            Furniture bedTwinXL = new Furniture("TwinXL", 80, 39, 25, 1000, Furniture.Types.Bed, "TwinXL");
+            Furniture bedFull = new Furniture("Full", 75, 54, 25, 1255.99, Furniture.Types.Bed, "Full");
+            Furniture bedQueen = new Furniture("Queen", 80, 60, 25, 1500, Furniture.Types.Bed, "Queen");
+            Furniture bedKing = new Furniture("King", 76, 80, 25, 1800, Furniture.Types.Bed, "King");
+            Furniture bedCaliforniaKing = new Furniture("California King", 84, 72, 3, 2000, Furniture.Types.Bed, "California King");
             beds.Add(bedTwin);
             beds.Add(bedTwinXL);
             beds.Add(bedFull);
@@ -75,11 +117,54 @@ namespace InteriorDesigning
             return beds;
         }
 
+        public List<Furniture> OpenData()
+        {
+            List<Furniture> furnitures = new List<Furniture>();
+            using (var reader = new StreamReader(@"C:\test.csv"))
+            {
+                List<string> listA = new List<string>();
+                List<string> listB = new List<string>();
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+
+                    listA.Add(values[0]);
+                    listB.Add(values[1]);
+                }
+            }
+        }
+
+        public List<Furniture> Chairs()
+        {
+            List<Furniture> chairs = new List<Furniture>();
+
+            return chairs;
+        }
+
+        public List<Furniture> BedSideTable()
+        {
+            List<Furniture> bedSideTables = new List<Furniture>();
+            //https://www.wayfair.com/furniture/pdp/brayden-studio-hoyne-1-drawer-nightstand-w000472658.html
+            Furniture table = new Furniture("Hoyne 1 Drawer Nightstand", 21.26, 17.12, 24.01, 101.99, Furniture.Types.BedSideTable, "");
+
+            // https://www.wayfair.com/furniture/pdp/zipcode-design-altus-1-drawer-nightstand-w001261818.html?piid=1487511403
+            Furniture table2 = new Furniture("Altus 1 Drawer Nightstand", 14.92, 11.85, 19.06, 67.99, Furniture.Types.BedSideTable, "");
+
+            // https://www.wayfair.com/furniture/pdp/george-oliver-ormond-mid-century-2-drawer-nightstand-w002588088.html
+            Furniture table3 = new Furniture("Ormond Mid-Century 2 Drawer Nightstand", 18, 15, 23.98, 119.99, Furniture.Types.BedSideTable, "");
+
+            bedSideTables.Add(table);
+            bedSideTables.Add(table2);
+            bedSideTables.Add(table3);
+            return bedSideTables;
+        }
+
         public void Fill(Room room)
         {
-            List<Bed> beds = Rules.BedRules(room,Beds());
+            List<Furniture> beds = Rules.BedRules(room, Beds());
             Random rnd = new Random();
-            Bed bed = beds[rnd.Next(0, beds.Count())];
+            Furniture bed = beds[rnd.Next(0, beds.Count())];
             Rectangle rect = bed.DrawFurniture();
             var canvas = new Canvas();
             canvas.Children.Add(rect);
@@ -112,6 +197,7 @@ namespace InteriorDesigning
             canvas.Children.Add(txtDescription);
             cvOutput.Children.Add(canvas);
         }
+
         
     }
 }
