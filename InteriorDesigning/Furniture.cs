@@ -97,7 +97,8 @@ namespace InteriorDesigning
         {
             Bed,
             BedSideTable,
-            Chair
+            Chair,
+            Mattress
         }
         
 
@@ -110,6 +111,11 @@ namespace InteriorDesigning
             Price = price;
             Type = type;
             Size = size;
+        }
+
+        public Furniture()
+        {
+
         }
 
         public List<Furniture> Children
