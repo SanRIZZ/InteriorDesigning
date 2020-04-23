@@ -197,7 +197,5 @@ namespace InteriorDesigning
             canvas.Children.Add(txtDescription);
             cvOutput.Children.Add(canvas);
         }
-
-        
     }
 }

@@ -6,8 +6,23 @@ using System.Threading.Tasks;
 
 namespace InteriorDesigning
 {
-    public class Bed: Furniture
+    public class Bed : Furniture
     {
+        private double _x_coord;
+        private double _y_coord;
+
+        public double X_coord
+        {
+            get { return _x_coord; }
+            set { _x_coord = value; }
+        }
+
+        public double Y_coord
+        {
+            get { return _y_coord; }
+            set { _y_coord = value; }
+        }
+
         public enum BedTypes
         {
             Twin,
@@ -61,7 +76,22 @@ namespace InteriorDesigning
             //}
         }
 
+        public void dimensionConstraint()
+        {
+            if (Length > 2.74)
+                Length = 2.74;
+            if (Breadth > 2.74)
+                Breadth = 2.74;
+            if (Height > 1.0)
+                Height = 1.0;
 
+            if (Height < 0.15)
+                Height = 0.15;
+            if (Breadth < 0.71)
+                Breadth = 0.71;
+            if (Length < 1.32)
+                Length = 1.32;
+        }
 
     }
 }
