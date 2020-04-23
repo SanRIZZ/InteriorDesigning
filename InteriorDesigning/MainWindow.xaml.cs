@@ -43,14 +43,13 @@ namespace InteriorDesigning
                 {
                     this.IsEnabled = false;
                 }
-                lbxOutput.Items.Add(ga.BestGenes.ToString());
             }
         }
 
         private Furniture GetRandomFurniture(Furniture.Types type)
         {
             int index = rnd.Next(furnitures.Count);
-            while(furnitures[index].Type != type)
+            while (furnitures[index].Type != type)
             {
                 index = rnd.Next(furnitures.Count);
             }
@@ -69,7 +68,7 @@ namespace InteriorDesigning
                 //{
                 //    score += 1;
                 //}
-                
+
             }
             return score;
         }
@@ -138,7 +137,7 @@ namespace InteriorDesigning
                     var values = line.Split(',');
                     Furniture furniture = new Furniture();
                     int length = values.Length;
-                    furniture.Link = values[length-1];
+                    furniture.Link = values[length - 1];
                     furniture.Name = values[0];
                     furniture.Length = double.Parse(values[2]);
                     furniture.Breadth = double.Parse(values[3]);
@@ -151,7 +150,7 @@ namespace InteriorDesigning
                         materials.Add(values[i]);
                     }
                     furniture.Materials = materials;
-                    if(Furniture.Types.Bed.ToString() == values[1])
+                    if (Furniture.Types.Bed.ToString() == values[1])
                     {
                         furniture.Type = Furniture.Types.Bed;
                     }
@@ -159,7 +158,7 @@ namespace InteriorDesigning
                     {
                         furniture.Type = Furniture.Types.Mattress;
                     }
-                        
+
                     furnitures.Add(furniture);
                 }
             }
@@ -171,73 +170,71 @@ namespace InteriorDesigning
             {
                 reader.Close();
             }
-            
+
             return furnitures;
         }
 
-    public List<Furniture> Chairs()
-    {
-        List<Furniture> chairs = new List<Furniture>();
-
-        return chairs;
-    }
-
-    public List<Furniture> BedSideTable()
-    {
-        List<Furniture> bedSideTables = new List<Furniture>();
-        //https://www.wayfair.com/furniture/pdp/brayden-studio-hoyne-1-drawer-nightstand-w000472658.html
-        Furniture table = new Furniture("Hoyne 1 Drawer Nightstand", 21.26, 17.12, 24.01, 101.99, Furniture.Types.BedSideTable, "");
-
-        // https://www.wayfair.com/furniture/pdp/zipcode-design-altus-1-drawer-nightstand-w001261818.html?piid=1487511403
-        Furniture table2 = new Furniture("Altus 1 Drawer Nightstand", 14.92, 11.85, 19.06, 67.99, Furniture.Types.BedSideTable, "");
-
-        // https://www.wayfair.com/furniture/pdp/george-oliver-ormond-mid-century-2-drawer-nightstand-w002588088.html
-        Furniture table3 = new Furniture("Ormond Mid-Century 2 Drawer Nightstand", 18, 15, 23.98, 119.99, Furniture.Types.BedSideTable, "");
-
-        bedSideTables.Add(table);
-        bedSideTables.Add(table2);
-        bedSideTables.Add(table3);
-        return bedSideTables;
-    }
-
-    public void Fill(Room room)
-    {
-        List<Furniture> beds = Rules.BedRules(room, Beds());
-        Random rnd = new Random();
-        Furniture bed = beds[rnd.Next(0, beds.Count())];
-        Rectangle rect = bed.DrawFurniture();
-        var canvas = new Canvas();
-        canvas.Children.Add(rect);
-        //Hyperlink hlink = new Hyperlink();
-        //if (bed.Link != null)
-        //       hlink.NavigateUri = new Uri(bed.Link);
-        int margin = int.MaxValue;
-        while (margin >= room.Length * 12 * 5)
+        public List<Furniture> Chairs()
         {
-            margin = rnd.Next(((int)room.Length) * 12 * 2);
-            if (margin >= room.Breadth * 12 * 5 - rect.Width)
-            {
-                margin = int.MaxValue;
-            }
+            List<Furniture> chairs = new List<Furniture>();
+
+            return chairs;
         }
-        TextBlock txtDescription = new TextBlock()
+
+        public List<Furniture> BedSideTable()
         {
-            Text = "Name:" + bed.Name
-                    + "\r\n" + "Materials:" + bed.Materials
-                    + "\r\n" + "color:" + bed.Color
-                    + "\r\n" + "Link:" + bed.Link
-            ,
-            Margin = new Thickness(margin + rect.Width / 3, rect.Height / 2 - 20, 0, 0),
-            Name = "txtDescription",
-            TextWrapping = TextWrapping.Wrap,
-            Width = 200,
-            Height = 400
-        };
-        Canvas.SetLeft(rect, margin);
-        canvas.Children.Add(txtDescription);
-        cvOutput.Children.Add(canvas);
+            List<Furniture> bedSideTables = new List<Furniture>();
+            //https://www.wayfair.com/furniture/pdp/brayden-studio-hoyne-1-drawer-nightstand-w000472658.html
+            Furniture table = new Furniture("Hoyne 1 Drawer Nightstand", 21.26, 17.12, 24.01, 101.99, Furniture.Types.BedSideTable, "");
+
+            // https://www.wayfair.com/furniture/pdp/zipcode-design-altus-1-drawer-nightstand-w001261818.html?piid=1487511403
+            Furniture table2 = new Furniture("Altus 1 Drawer Nightstand", 14.92, 11.85, 19.06, 67.99, Furniture.Types.BedSideTable, "");
+
+            // https://www.wayfair.com/furniture/pdp/george-oliver-ormond-mid-century-2-drawer-nightstand-w002588088.html
+            Furniture table3 = new Furniture("Ormond Mid-Century 2 Drawer Nightstand", 18, 15, 23.98, 119.99, Furniture.Types.BedSideTable, "");
+
+            bedSideTables.Add(table);
+            bedSideTables.Add(table2);
+            bedSideTables.Add(table3);
+            return bedSideTables;
+        }
+
+        public void Fill(Room room)
+        {
+            List<Furniture> beds = Rules.BedRules(room, Beds());
+            Random rnd = new Random();
+            Furniture bed = beds[rnd.Next(0, beds.Count())];
+            Rectangle rect = bed.DrawFurniture();
+            var canvas = new Canvas();
+            canvas.Children.Add(rect);
+            //Hyperlink hlink = new Hyperlink();
+            //if (bed.Link != null)
+            //       hlink.NavigateUri = new Uri(bed.Link);
+            int margin = int.MaxValue;
+            while (margin >= room.Length * 12 * 5)
+            {
+                margin = rnd.Next(((int)room.Length) * 12 * 2);
+                if (margin >= room.Breadth * 12 * 5 - rect.Width)
+                {
+                    margin = int.MaxValue;
+                }
+            }
+            TextBlock txtDescription = new TextBlock()
+            {
+                Text = "Name:" + bed.Name
+                        + "\r\n" + "Materials:" + bed.Materials
+                        + "\r\n" + "color:" + bed.Color
+                        + "\r\n" + "Link:" + bed.Link
+                ,
+                Margin = new Thickness(margin + rect.Width / 3, rect.Height / 2 - 20, 0, 0),
+                Name = "txtDescription",
+                TextWrapping = TextWrapping.Wrap,
+                Width = 200,
+                Height = 400
+            };
+            Canvas.SetLeft(rect, margin);
+            canvas.Children.Add(txtDescription);
+            cvOutput.Children.Add(canvas);
+        }
     }
-
-
-}
 }

@@ -52,10 +52,64 @@ namespace InteriorDesigning
             return viableBeds;
         }
 
+        public static void bedDimensionConstraint(double Length, double Breadth, double Height)
+        {
+            if (Length > 2.74)
+                Length = 2.74;
+            if (Breadth > 2.74)
+                Breadth = 2.74;
+            if (Height > 1.0)
+                Height = 1.0;
+            if (Height < 0.15)
+                Height = 0.15;
+            if (Breadth < 0.71)
+                Breadth = 0.71;
+            if (Length < 1.32)
+                Length = 1.32;
+        }
+
         // a bed, bedside table, a dresser, chair
 
         // tall room tall headboard 
 
+        //if(length <= 77 && breadth <= 39)
+        //{
+        //    BedType = BedTypes.Twin;
+        //}
+        //else if(length <= 80 && breadth <= 39)
+        //{
+        //    BedType = BedTypes.TwinXL;
+        //}
+        //else if(length <= 75 && breadth <= 54)
+        //{
+        //    BedType = BedTypes.Full;
+        //}
+        //else if (length <= 80 && breadth <= 54)
+        //{
+        //    BedType = BedTypes.FullXL;
+        //}
+        //else if (length <= 80 && breadth <= 60)
+        //{
+        //    BedType = BedTypes.Queen;
+        //}
+        //else if(length <= 80 && breadth <= 76)
+        //{
+        //    BedType = BedTypes.King;
+        //}
+        //else if (length <= 84 && breadth <= 72)
+        //{
+        //    BedType = BedTypes.CaliforniaKing;
+        //}
 
+        //public enum BedTypes
+        //{
+        //    Twin,
+        //    TwinXL,
+        //    Full,
+        //    FullXL,
+        //    Queen,
+        //    King,
+        //    CaliforniaKing
+        //}
     }
 }

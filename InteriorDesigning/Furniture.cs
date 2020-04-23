@@ -22,8 +22,23 @@ namespace InteriorDesigning
         private string _Color;
         private string _Link;
         private Types _Type;
+        private Wall _orient;
 
         private string _Size;
+        private double _x_coord;
+        private double _y_coord;
+
+        public double X_coord
+        {
+            get { return _x_coord; }
+            set { _x_coord = value; }
+        }
+
+        public double Y_coord
+        {
+            get { return _y_coord; }
+            set { _y_coord = value; }
+        }
 
         public string Size
         {
@@ -93,6 +108,12 @@ namespace InteriorDesigning
             set { _StartLocation = value; }
         }
 
+        public Wall Orient
+        {
+            get { return _orient; }
+            set { _orient = value; }
+        }
+
         public enum Types
         {
             Bed,
@@ -102,7 +123,7 @@ namespace InteriorDesigning
         }
         
 
-        public Furniture(string name, double length, double breadth, double height, double price, Types type, string size)
+        public Furniture(string name, double length, double breadth, double height, double price, Types type, string size, Wall orient)
         {
             Name = name;
             Length = length;
@@ -111,6 +132,7 @@ namespace InteriorDesigning
             Price = price;
             Type = type;
             Size = size;
+            Orient = orient;
         }
 
         public Furniture()
@@ -131,6 +153,11 @@ namespace InteriorDesigning
             furniture.Height = Length*5;
             furniture.Stroke = Brushes.Black;
             return furniture;
+        }
+
+        public enum Wall
+        {
+            North, East, West, South, Floor, Ceiling
         }
 
     }

@@ -42,7 +42,7 @@ namespace InteriorDesigning
         private Random rnd;
 
         public GeneticAlgorithm(int populationSize, int dnaSize, Random rnd, 
-            Func<T> getRandomGene, Func<int, float> fitnessFunction, float mutationRate = 0.01f)
+            Func<Furniture.Types,T> getRandomGene, Func<int, float> fitnessFunction, float mutationRate = 0.01f)
         {
             Generation = 1;
             MutationRate = mutationRate;

@@ -11,7 +11,7 @@ namespace InteriorDesigning
         private T[] _Genes;
         private float _Fitness;
         private Random rnd;
-        private Func<T> _GetRandomGene;
+        private Func<Furniture.Types,T> _GetRandomGene;
         private Func<int, float> _FitnessFunction;
 
         public T[] Genes
@@ -26,7 +26,7 @@ namespace InteriorDesigning
             set { _Fitness = value; }
         }
 
-        public DNA(int size, Random rnd, Func<T> getRandomGene, Func<int, float> fitnessFunction,  bool shouldInitGenes = true)
+        public DNA(int size, Random rnd, Func<Furniture.Types, T> getRandomGene, Func<int, float> fitnessFunction,  bool shouldInitGenes = true)
         {
             Genes = new T[size];
             this.rnd = rnd;
@@ -36,7 +36,7 @@ namespace InteriorDesigning
             {
                 for (int i = 0; i < Genes.Length; i++)
                 {
-                    Genes[i] = getRandomGene();
+                    Genes[i] = getRandomGene(Furniture.Types.Bed);
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace InteriorDesigning
             {
                 if(rnd.NextDouble() < mutationRate)
                 {
-                    Genes[i] = _GetRandomGene();
+                    Genes[i] = _GetRandomGene(Furniture.Types.Bed);
                 }
             }
         }

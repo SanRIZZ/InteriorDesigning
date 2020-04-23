@@ -34,5 +34,16 @@ namespace InteriorDesigning
             return door;
         }
 
+        public void dimensionConstraint()
+        {
+            if (Height > 3.0)
+                Height = 3.0;
+            if (Height < 2.0)
+                Height = 2.0;
+            if (Length > 1.5)
+                Length = 1.5;
+            if (Length < 1.0)
+                Length = 1.0;
+        }
     }
 }
